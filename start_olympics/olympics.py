@@ -5,14 +5,14 @@ from sports import sports
 
 
 def sport(title):
-    print(f'Modalidade iniciada: {title}')
-    tempo = random.uniform(1.0, 15.0)
+    tempo = random.uniform(10.0, 40.0)
     time.sleep(tempo)
+    print(f'Modalidade {title} iniciada')
     print(f'Duração: {tempo:.2f} minutos.\n')
 
 
 def start_olympics():
-    print('\nOs Jogos Olímpicos em Paris 2024 foram iniciados!\n')
+    print('Os Jogos Olímpicos em Paris 2024 foram iniciados!\n')
 
     threads = []
 
@@ -20,6 +20,8 @@ def start_olympics():
         t = threading.Thread(target=sport, args=(title,))
         threads.append(t)
         t.start()
+
+    for t in threads:
         t.join()
 
     print('Os Jogos Olímpicos em Paris 2024 foram finalizados!\n')
