@@ -85,7 +85,7 @@ Para obter uma cópia local e colocá-la em funcionamento, siga estas etapas:
 
 ### 📊 Exemplo de Saída
 
-```plaintext
+```
 Os Jogos Olímpicos em Paris 2024 foram iniciados!
 
 --- Início do dia 1 ---
