@@ -67,7 +67,7 @@ def start_olympics():
 
         # Espera que todos os esportes do dia sejam concluídos
         for t, title in executed_today:
-            t.join()  # Espera o término da execução de cada thread
+            t.join()
 
         # Exibe o resumo dos esportes executados no dia
         executed_sports = ', '.join([title for _, title in executed_today])
