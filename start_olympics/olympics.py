@@ -4,74 +4,79 @@ import random
 from sports import sports
 
 
-def sport(title, duration): # titulo e tempo de duracao da Thread
+# Função para simular a execução do esporte, com título e duração específica
+def sport(title, duration):
     time.sleep(duration)
     print(f'Modalidade {title} concluída após {duration:.2f} horas.')
 
 
+# Simula o início dos Jogos Olímpicos, distribuindo os esportes ao longo dos dias
 def start_olympics():
-    # Inicialização da funcao 
-    print('Os Jogos Olímpicos em Paris 2024 foram iniciados!\n') 
+    print('\nOs Jogos Olímpicos em Paris 2024 foram iniciados!\n')
 
-    day_duration = 12 # Duracao maxima
-    day_count = 0
-    all_sports = sports.copy()
-    pending_sports = [] # Lista dos esportes pendentes
+    day_duration = 12  # Duracao maxima de um dia (12 horas)
+    day_count = 0  # Contador de dias
+    all_sports = sports.copy()  # Lista de todos os esportes
+    pending_sports = []  # Lista dos esportes pendentes para o próximo dia
 
-    # Executa os esportes de all_sports ate ter o limite do dia atingido e os outros esportes ficam na variavel pending_sports
+    # Executa enquanto houver esportes a serem realizados
     while all_sports or pending_sports:
-        # Inicia a contagem dos dias
-        day_count += 1 
-        print(f'--- Início do dia {day_count} ---') 
-        # O restante do tempo limite do dia e igualado com a duracao maxima
-        day_remaining = day_duration  
-        # Lista dos dias
-        executed_today = [] 
+        day_count += 1
 
-        # Executa os esportes pendentes enquando tiver tempo de duracao
+        print(f'--- Início do dia {day_count} ---\n')
+
+        day_remaining = day_duration  # Tempo restante do dia
+        executed_today = []  # Esportes executados no dia
+
+        # Executa os esportes pendentes, se houver tempo no dia
         while pending_sports and day_remaining > 0:
-            # Inicio da pilha
-            title, duration = pending_sports.pop(0) 
-            # Enquanto tiver tempo irá executar esse bloco
-            if duration <= day_remaining: 
-                t = threading.Thread(target=sport, args=(title, duration))
-                executed_today.append((t, title)) 
-                # Inicia a Thread
-                t.start()
-                # Decrementa o tempo de duracao a cada esporte executado
-                day_remaining -= duration 
-            else: # Os esportes pendentes serao executados no proximo dia
-                pending_sports.insert(0, (title, duration)) 
-                break
 
-        # Verifica qual esporte ainda nao foi executado e se tem tempo suficiente para execucao
-        while all_sports and day_remaining > 0: 
-            title = all_sports.pop(0)
-            # A duracao e de forma aleatoria e colocada em formato de hora
-            duration = random.uniform((1/60), 5) 
-            # Enquanto tiver tempo ira executar esse bloco
-            if duration <= day_remaining: 
+            # Remove o primeiro esporte da lista de pendentes
+            title, duration = pending_sports.pop(0)
+
+            # Verifica se há tempo suficiente para executar o esporte
+            if duration <= day_remaining:
+                # Cria uma thread para o esporte
                 t = threading.Thread(target=sport, args=(title, duration))
                 executed_today.append((t, title))
-                # Inicia a Thread
-                t.start()
-                # Decrementa o tempo de duração a cada esporte executado
-                day_remaining -= duration
+
+                t.start()  # Inicializa a Thread
+                day_remaining -= duration  # Decrementa o tempo do dia a cada esporte executado
+            else:
+                # Reinsere o esporte na lista de pendentes se não houver tempo suficiente
+                pending_sports.insert(0, (title, duration))
+                break
+
+        # Executa novos esportes, se houver tempo restante no dia
+        while all_sports and day_remaining > 0:
+            # Remove o primeiro esporte da lista de todos os esportes
+            title = all_sports.pop(0)
+
+            # Duração aleatória (em horas)
+            duration = random.uniform((1/60), 5)
+
+            # Verifica se há tempo suficiente para executar o esporte
+            if duration <= day_remaining:
+                t = threading.Thread(target=sport, args=(title, duration))
+                executed_today.append((t, title))
+
+                t.start()  # Inicializa as Threads
+                day_remaining -= duration  # Decrementa o tempo do dia a cada esporte executado
             else:
                 pending_sports.append((title, duration))
 
-        # Printa as informacoes
+        # Espera que todos os esportes do dia sejam concluídos
         for t, title in executed_today:
-            t.join()
+            t.join()  # Espera o término da execução de cada thread
 
-        # Finaliza o dia e mostra os esportes executados 
+        # Exibe o resumo dos esportes executados no dia
         executed_sports = ', '.join([title for _, title in executed_today])
         print(
-            f'--- Fim do dia {day_count}, esportes executados: {executed_sports} ---\n')
+            f'\n--- Fim do dia {day_count} ---\nEsportes executados: {executed_sports}\n')
 
-    # Finalização da funcao
+     # Exibe mensagem de finalização dos Jogos Olímpicos
     print(
-        f'Os Jogos Olímpicos em Paris 2024 foram finalizados após {day_count} dias!')
+        f'Os Jogos Olímpicos em Paris 2024 foram finalizados após {day_count} dias!\n')
 
 
 # Inicia a simulação dos Jogos Olímpicos
