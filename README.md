@@ -13,11 +13,11 @@ Uma simulação em Python que imita vários eventos esportivos olímpicos ocorre
 - [Detalhes do Código](#detalhes-do-código)
 - [Autores](#autores)
 
-## 🔍 **Visão Geral** 
+## **Visão Geral** 
 
 Este projeto simula uma variedade de esportes olímpicos usando threads em Python para representar cada evento. Cada esporte possui uma duração aleatória e ocorre dentro de um dia de competição que dura 12 horas, emulando a natureza concorrente dos eventos olímpicos do mundo real. O projeto é estruturado de forma modular, permitindo fácil adição de novos esportes e extensões à simulação.
 
-## 🚀  **Primeiros Passos** 
+## **Primeiros Passos** 
 
 Para obter uma cópia local e colocá-la em funcionamento, siga estas etapas:
 
@@ -42,7 +42,7 @@ Para obter uma cópia local e colocá-la em funcionamento, siga estas etapas:
     python start_olympics/olympics.py
     ```
 
-## 🧩 **Detalhes do Código** 
+## **Detalhes do Código** 
 
 ### ⚙️ Estrutura do Código
 
@@ -114,7 +114,7 @@ Esportes executados: Boxe, Breaking, Canoagem de Velocidade, Canoagem Slalom
 Os Jogos Olímpicos em Paris 2024 foram finalizados após 2 dias!
 ```
 
-## 👥 **Autores**
+## **Autores**
 
 Desenvolvedores que contribuíram para a estruturação e desenvolvimento deste projeto:
 
