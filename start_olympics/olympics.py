@@ -5,9 +5,10 @@ from sports import sports
 
 
 # Função para simular a execução do esporte, com título e duração específica
-def sport(title, duration):
+def sport(title, duration, daily_total_hours):
     time.sleep(duration)
-    print(f'Modalidade {title} concluída após {duration:.2f} horas.')
+    daily_total_hours[0] += duration  # Atualiza o total de horas do dia
+    print(f'Modalidade {title} concluída após {duration:.3f} horas.')
 
 
 # Simula o início dos Jogos Olímpicos, distribuindo os esportes ao longo dos dias
@@ -27,6 +28,8 @@ def start_olympics():
 
         day_remaining = day_duration  # Tempo restante do dia
         executed_today = []  # Esportes executados no dia
+        # Total de horas acumuladas no dia, como lista para ser mutável
+        daily_total_hours = [0]
 
         # Executa os esportes pendentes, se houver tempo no dia
         while pending_sports and day_remaining > 0:
@@ -37,7 +40,8 @@ def start_olympics():
             # Verifica se há tempo suficiente para executar o esporte
             if duration <= day_remaining:
                 # Cria uma thread para o esporte
-                t = threading.Thread(target=sport, args=(title, duration))
+                t = threading.Thread(target=sport, args=(
+                    title, duration, daily_total_hours))
                 executed_today.append((t, title))
 
                 t.start()  # Inicializa a Thread
@@ -57,7 +61,8 @@ def start_olympics():
 
             # Verifica se há tempo suficiente para executar o esporte
             if duration <= day_remaining:
-                t = threading.Thread(target=sport, args=(title, duration))
+                t = threading.Thread(target=sport, args=(
+                    title, duration, daily_total_hours))
                 executed_today.append((t, title))
 
                 t.start()  # Inicializa as Threads
@@ -73,6 +78,10 @@ def start_olympics():
         executed_sports = ', '.join([title for _, title in executed_today])
         print(
             f'\n--- Fim do dia {day_count} ---\nEsportes executados: {executed_sports}\n')
+
+        # Exibe o total de horas de esportes executados no dia
+        print(
+            f'Total de horas de esportes executados no dia {day_count}: {daily_total_hours[0]:.3f} horas\n')
 
      # Exibe mensagem de finalização dos Jogos Olímpicos
     print(
