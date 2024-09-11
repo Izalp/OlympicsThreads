@@ -81,8 +81,7 @@ def start_olympics():
         # Exibe o total de horas de esportes executados no dia
         print(
             f'Total de horas de esportes executados no dia {day_count}: {daily_total_hours[0]:.3f} horas\n')
-
-    # Exibe mensagem de finalização dos Jogos Olímpicos
+        
     print(
         f'Os Jogos Olímpicos em Paris 2024 foram finalizados após {day_count} dias!\n')
 
