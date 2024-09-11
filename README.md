@@ -53,7 +53,7 @@ Para obter uma cópia local e colocá-la em funcionamento, siga estas etapas:
 
 ### 🔧 Funções Principais
 
-- **`sport(title, duration)`**: Simula a execução de um esporte por uma duração específica.
+- **`sport(title, duration, daily_total_hours)`**: Simula a execução de um esporte por uma duração específica.
 - **`start_olympics()`**: Função que gerencia a simulação geral dos Jogos Olímpicos. Ela coordena os dias de competição, executa os esportes usando threads e lida com esportes pendentes que não puderam ser concluídos no dia atual.
 
 ### 📊 Fluxo de Execução
@@ -92,26 +92,30 @@ Os Jogos Olímpicos em Paris 2024 foram iniciados!
 
 --- Início do dia 1 ---
 
-Modalidade Handebol concluída após 0.11 horas.
-Modalidade Rugby Sevens concluída após 0.13 horas.
-Modalidade Ciclismo Bmx Racing concluída após 0.26 horas.
-Modalidade Atletismo concluída após 0.59 horas.
-Modalidade Basquete 3x3 concluída após 3.48 horas.
-Modalidade Badminton concluída após 3.57 horas.
-Modalidade Basquete concluída após 3.80 horas.
+Modalidade Golfe concluída após 0.036 horas.
+Modalidade Natação concluída após 0.138 horas.
+Modalidade Futebol concluída após 0.193 horas.
+Modalidade Maratona Aquática concluída após 0.537 horas.
+Modalidade Basquete concluída após 2.447 horas.
+Modalidade Badminton concluída após 3.905 horas.
+Modalidade Atletismo concluída após 4.689 horas.
 
 --- Fim do dia 1 ---
-Esportes executados: Atletismo, Badminton, Basquete, Basquete 3x3, Ciclismo Bmx Racing, Handebol, Rugby Sevens
+Esportes executados: Atletismo, Badminton, Basquete, Futebol, Golfe, Maratona Aquática, Natação
+
+Total de horas de esportes executados no dia 1: 11.944 horas
 
 --- Início do dia 2 ---
 
-Modalidade Breaking concluída após 1.38 horas.
-Modalidade Canoagem de Velocidade concluída após 1.88 horas.
-Modalidade Canoagem Slalom concluída após 2.28 horas.
-Modalidade Boxe concluída após 3.70 horas.
+Modalidade Basquete 3x3 concluída após 2.362 horas.
+Modalidade Breaking concluída após 2.577 horas.
+Modalidade Boxe concluída após 2.708 horas.
+Modalidade Canoagem de Velocidade concluída após 3.509 horas.
 
 --- Fim do dia 2 ---
-Esportes executados: Boxe, Breaking, Canoagem de Velocidade, Canoagem Slalom
+Esportes executados: Basquete 3x3, Boxe, Breaking, Canoagem de Velocidade
+
+Total de horas de esportes executados no dia 2: 11.156 horas
 
 Os Jogos Olímpicos em Paris 2024 foram finalizados após 2 dias!
 ```
