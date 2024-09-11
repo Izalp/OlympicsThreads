@@ -15,7 +15,7 @@ def sport(title, duration, daily_total_hours):
 def start_olympics():
     print('\nOs Jogos Olímpicos em Paris 2024 foram iniciados!\n')
 
-    day_duration = 12  # Duracao maxima de um dia (12 horas)
+    day_duration = 12  # Duração máxima de um dia (12 horas)
     day_count = 0  # Contador de dias
     all_sports = sports.copy()  # Lista de todos os esportes
     pending_sports = []  # Lista dos esportes pendentes para o próximo dia
@@ -33,7 +33,6 @@ def start_olympics():
 
         # Executa os esportes pendentes, se houver tempo no dia
         while pending_sports and day_remaining > 0:
-
             # Remove o primeiro esporte da lista de pendentes
             title, duration = pending_sports.pop(0)
 
@@ -82,8 +81,7 @@ def start_olympics():
         # Exibe o total de horas de esportes executados no dia
         print(
             f'Total de horas de esportes executados no dia {day_count}: {daily_total_hours[0]:.3f} horas\n')
-
-     # Exibe mensagem de finalização dos Jogos Olímpicos
+        
     print(
         f'Os Jogos Olímpicos em Paris 2024 foram finalizados após {day_count} dias!\n')
 
