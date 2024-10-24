@@ -43,6 +43,7 @@ def start_olympics():
 
         day_remaining = day_duration  
         executed_today = []  
+        executed_titles = []
         daily_total_hours = [0]
 
         # Executa os esportes pendentes, se houver tempo no dia
@@ -52,9 +53,8 @@ def start_olympics():
             if duration <= day_remaining:
                 t = threading.Thread(target=sport, args=(
                     title, duration, daily_total_hours, lock))
-                executed_today.append((t, title))
-
-                t.start()  
+                executed_today.append(t)
+                executed_titles.append(title)
                 day_remaining -= duration 
             else:
                 pending_sports.insert(0, (title, duration))
@@ -68,17 +68,21 @@ def start_olympics():
             if duration <= day_remaining:
                 t = threading.Thread(target=sport, args=(
                     title, duration, daily_total_hours, lock))
-                executed_today.append((t, title))
-
-                t.start()  
+                executed_today.append(t)
+                executed_titles.append(title) 
                 day_remaining -= duration 
             else:
                 pending_sports.append((title, duration))
 
-        for t, title in executed_today:
+
+        for t in executed_today:
+            t.start()    
+
+        for t in executed_today:
             t.join()
 
-        executed_sports = ', '.join([title for _, title in executed_today])
+        executed_sports = ', '.join(executed_titles)
+
         print(
             f'\n--- Fim do dia {day_count} ---\nEsportes executados: {executed_sports}\n')
 
