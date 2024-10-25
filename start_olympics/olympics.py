@@ -1,97 +1,91 @@
 import threading
 import time
 import random
+from collections import deque
 from sports import sports
 
 
 # Função para simular a execução do esporte, com título e duração específica
-def sport(title, duration, daily_total_hours, lock):
+def sport(title, duration, results, lock, quantum=None):
     start_time = time.perf_counter()  # Captura o tempo inicial
-    print(f'Modalidade {title} iniciada - tempo inicio: {start_time:.3f}')
-
-    elapsed_time = 0
-    time_count = 0.1
-
-    while elapsed_time < duration:
-        elapsed_time += time_count
+    print(f'Modalidade {title} - TEMPO INICIO: {start_time:.3f}')
+    
+    # Se for RR, usa o quantum
+    if quantum:
+        time_count = min(duration, quantum)
+        while duration > 0:
+            time.sleep(time_count)
+            duration -= time_count
+            if duration > 0:
+                print(f"{title} - Pausado, {duration:.2f}h restantes...")
+    else:
+        time.sleep(duration)
 
     end_time = time.perf_counter()  # Captura o tempo final
-    print(f'Modalidade {title} finalizada - tempo final: {end_time:.3f}')
-    
+    elapsed_time = end_time - start_time
+
+    print(f'Modalidade {title} - TEMPO FINAL: {end_time:.3f}')
+
     with lock:
-        daily_total_hours[0] += duration
-
-    print(f'Modalidade {title} concluída após {duration:.3f} horas. '
-          f'Espera: {end_time - start_time:.3f} segundos.')
+        results.append((title, duration, elapsed_time))
 
 
-# Simula o início dos Jogos Olímpicos, distribuindo os esportes ao longo dos dias
-def start_olympics():
+# Função para executar FCFS 
+def fcfs(sports_queue, results, lock):
+    while sports_queue:
+        title, duration = sports_queue.popleft()
+        sport(title, duration, results, lock)
+
+
+# Função para executar RR
+def rr(sports_queue, results, lock, quantum):
+    while sports_queue:
+        title, duration = sports_queue.popleft()
+        sport(title, duration, results, lock, quantum=quantum)
+        if duration > 0:  # Se não foi finalizado, volta ao final da fila
+            sports_queue.append((title, duration))
+
+
+def start_olympics(algorithm="FCFS", quantum=0.5):
     print('\nOs Jogos Olímpicos em Paris 2024 foram iniciados!\n')
 
-    day_duration = 12  
-    day_count = 0 
+    day_count = 0
     all_sports = sports.copy()  
-    pending_sports = []  
-
     lock = threading.Lock()
 
-    while all_sports or pending_sports:
-        day_count += 1
+    results = [] 
 
-        print(f'--- Início do dia {day_count} ---\n')
+    if algorithm == "FCFS":
+        sports_queue = deque([(title, random.uniform((1/60), 5)) for title in all_sports])
+        fcfs(sports_queue, results, lock)
 
-        day_remaining = day_duration  
-        executed_today = []  
-        executed_titles = []
-        daily_total_hours = [0]
+    elif algorithm == "RR":
+        sports_queue = deque([(title, random.uniform((1/60), 5)) for title in all_sports])
+        rr(sports_queue, results, lock, quantum)
 
-        # Executa os esportes pendentes, se houver tempo no dia
-        while pending_sports and day_remaining > 0:
-            title, duration = pending_sports.pop(0)
+    day_count += 1
 
-            if duration <= day_remaining:
-                t = threading.Thread(target=sport, args=(
-                    title, duration, daily_total_hours, lock))
-                executed_today.append(t)
-                executed_titles.append(title)
-                day_remaining -= duration 
-            else:
-                pending_sports.insert(0, (title, duration))
-                break
+    total_time = sum([elapsed_time for title, duration, elapsed_time in results])
+    print(f'\nOs Jogos Olímpicos em Paris 2024 foram finalizados após {day_count} dias!\n')
+    print(f'Tempo total de processamento: {total_time:.2f} segundos')
 
-        # Executa novos esportes, se houver tempo restante no dia
-        while all_sports and day_remaining > 0:
-            title = all_sports.pop(0)
-            duration = random.uniform((1/60), 5)
+    return total_time
 
-            if duration <= day_remaining:
-                t = threading.Thread(target=sport, args=(
-                    title, duration, daily_total_hours, lock))
-                executed_today.append(t)
-                executed_titles.append(title) 
-                day_remaining -= duration 
-            else:
-                pending_sports.append((title, duration))
+def compare_algorithms():
+    print("Executando FCFS...")
+    fcfs_time = start_olympics("FCFS")
+
+    print("Executando RR...")
+    rr_time = start_olympics("RR", quantum=1)  # 1 hora
+
+    # Comparar tempos
+    print(f"Tempo total com FCFS: {fcfs_time:.2f} segundos")
+    print(f"Tempo total com RR: {rr_time:.2f} segundos")
+
+    if fcfs_time < rr_time:
+        print("FCFS foi mais rápido.")
+    else:
+        print("RR foi mais rápido.")
 
 
-        for t in executed_today:
-            t.start()    
-
-        for t in executed_today:
-            t.join()
-
-        executed_sports = ', '.join(executed_titles)
-
-        print(
-            f'\n--- Fim do dia {day_count} ---\nEsportes executados: {executed_sports}\n')
-
-        print(
-            f'Total de horas de esportes executados no dia {day_count}: {daily_total_hours[0]:.3f} horas\n')
-        
-    print(
-        f'Os Jogos Olímpicos em Paris 2024 foram finalizados após {day_count} dias!\n')
-
-
-# Inicia a simulação dos Jogos Olímpicos
-start_olympics()
+compare_algorithms()
