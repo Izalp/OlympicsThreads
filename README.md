@@ -11,6 +11,7 @@ Uma simulação em Python que imita vários eventos esportivos olímpicos ocorre
 - [Visão Geral](#visão-geral)
 - [Primeiros Passos](#primeiros-passos)
 - [Detalhes do Código](#detalhes-do-código)
+- [Escalonamento e Sincronismo](#escalonamento-e-sincronismo)
 - [Autores](#autores)
 
 ## **Visão Geral**
@@ -32,13 +33,6 @@ Para obter uma cópia local e colocá-la em funcionamento, siga estas etapas:
 
   ```bash
   git clone https://github.com/Izalp/OlympicsThreads.git
-  ```
-
-### 3. **Execução**
-
-- Execute a simulação usando o comando:
-  ```bash
-  python start_olympics/olympics.py
   ```
 
 ## **Detalhes do Código**
@@ -119,6 +113,29 @@ Total de horas de esportes executados no dia 2: 11.156 horas
 
 Os Jogos Olímpicos em Paris 2024 foram finalizados após 2 dias!
 ```
+## **Escalonamento e Sincronismo**
+
+Foram implementados diferentes algoritmos de escalonamento e sincronização:
+
+1. **FCFS (First-Come, First-Served)** 🏁
+   
+O algoritmo FCFS executa os esportes na ordem de chegada, ideal para uma simulação linear e justa, onde cada esporte aguarda até o término do anterior.
+
+2. **Round Robin (RR)** 🔄
+   
+No Round Robin, cada esporte recebe um tempo fixo para ser executado (quantum). Ao final desse tempo, passa a vez para o próximo esporte na fila, permitindo que todos os eventos tenham oportunidades contínuas de execução. Esse método é ideal para competições onde é desejado um compartilhamento uniforme de tempo entre as modalidades.
+
+3. **Semáforo Binário** 🚦
+   
+O semáforo binário controla o acesso ao Local de Evento, garantindo que apenas um esporte o utilize por vez. Esse controle evita condições de corrida.
+
+4. **Monitor** 🔐
+   
+O monitor limita o acesso ao Local de Evento, permitindo que apenas um esporte o acesse em um dado momento. Ele é utilizado para sincronizações específicas, como controlar os tempos de início e fim dos eventos.
+
+5. **Semáforo de Contagem** 🎟️
+   
+O semáforo de contagem permite que múltiplos esportes acessem o Local de Evento até um limite específico, ideal para simular locais com capacidade máxima de eventos simultâneos.
 
 ## **Autores**
 
