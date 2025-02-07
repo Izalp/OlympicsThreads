@@ -4,8 +4,6 @@
 
 # **Projeto - Olympics Threads** 🏅
 
-Uma simulação em Python que imita vários eventos esportivos olímpicos ocorrendo simultaneamente, usando threads. Este projeto demonstra como lidar com concorrência e paralelismo em Python enquanto simula os diversos eventos que acontecem durante os Jogos Olímpicos.
-
 ## **Índice**
 
 - [Visão Geral](#visão-geral)
@@ -137,7 +135,7 @@ O monitor limita o acesso ao Local de Evento, permitindo que apenas um esporte o
    
 O semáforo de contagem permite que múltiplos esportes acessem o Local de Evento até um limite específico, ideal para simular locais com capacidade máxima de eventos simultâneos.
 
-## **Autores**
+## **Autores** 💻
 
 Desenvolvedores que contribuíram para a estruturação e desenvolvimento deste projeto:
 
